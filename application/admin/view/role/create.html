@@ -1,0 +1,73 @@
+{extend name="public:layouts" /}
+{block name="title"}XXºóÌ¨2{/block}
+{block name="body"}
+<style type="text/css">
+
+</style>
+<div class="x-body">
+    <form action="" method="post" class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">
+                <span class="x-red">*</span>角色名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" lay-verify="required"
+                autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">
+                拥有权限
+            </label>
+            <table  class="layui-table table-x">
+                    {volist name="menu" id="vo"}
+                    <tr rowspan="3">
+                        <td style="width:17%">
+                            <input type="checkbox" name="" lay-skin="primary" title="{$vo.title}"  value="{$vo.id}" lay-filter="roleOne">
+                        </td>
+                        <td style="width:83%;">
+                            <table class="layui-table table-x" style="width:104.7%;margin:-10px -16px;">
+                                {volist name="vo.child" id="ko"}
+                                <tr>
+                                    <td style="width:25%">
+                                        <input type="checkbox" name="" lay-skin="primary" title="{$ko.title}" value="{$ko.id}" lay-filter="roleTwo">
+                                    </td>
+                                    <td style="width:75%">
+                                        <table class="layui-table table-z" lay-skin="nob">
+                                            <tr>
+                                            {volist name="ko.child" id="po"}
+                                                <td style="padding: 0;width:33%;float:left;">
+                                                    <input type="checkbox" name="" lay-skin="primary" title="{$po.title}" value="{$po.id}" lay-filter="roleThree">
+                                                </td>
+                                            {/volist}
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </td>
+                    </tr>
+                    {/volist}
+            </table>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="desc" class="layui-form-label">
+                角色描述
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="角色描述" id="description" name="description" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            {auth name="admin/permission/store"}
+            <button class="layui-btn" lay-submit="" lay-filter="store">立即提交</button>
+            {/auth}
+        </div>
+    </form>
+</div>
+{/block}
+{block name="script"}
+{js href="_ADMIN_/js/role-add.js" /}
+{/block}
+

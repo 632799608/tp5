@@ -1,0 +1,70 @@
+{extend name="public:layouts" /}
+{block name="title"}XX后台2{/block}
+{block name="body"}
+<div class="x-body">
+	<form class="layui-form">
+		<input type="hidden" name="id" value="{$detail.id}">
+		<div class="layui-form-item" style="margin-top: 20px">
+		    <label class="layui-form-label">父级菜单</label>
+		    <div class="layui-input-inline">
+		      <select name="pid" lay-verify="required">
+		        <option value="0"></option>
+		        {volist name="menu" id="vo"}
+		        	<option value="{$vo.id}" 
+		        	{if condition="$vo.id eq $detail.pid"}selected{/if} >{$vo.title}
+		        	</option>
+		        	{volist name="vo.child" id="ko"}
+		        		<option value="{$ko.id}" 
+		        		{if condition="$ko.id eq $detail.pid"}selected{/if}
+		        		>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ko.title}</option>
+		        	{/volist}
+		        {/volist}
+		      </select>
+		    </div>
+		</div>
+		<div class="layui-form-item" style="margin-top:20px;">
+			<div class="layui-inline">
+			  <label class="layui-form-label">权限别名</label>
+			  <div class="layui-input-inline">
+			    <input type="text" name="name" lay-verify="required" placeholder="模块/控制器/方法" autocomplete="off" class="layui-input" value="{$detail.name}">
+			  </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+			  <label class="layui-form-label">权限名称</label>
+			  <div class="layui-input-inline">
+			    <input type="text" name="title" lay-verify="required" placeholder="权限名称" autocomplete="off" class="layui-input" value="{$detail.title}">
+			  </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			  <label class="layui-form-label">图标</label>
+			  <div class="layui-input-block">
+			    <input type="text" name="icon" placeholder="输入权限图标" autocomplete="off" class="layui-input-inline layui-input" value="{$detail.icon}">
+			    <span class='layui-btn layui-btn-primary' style='padding:0 12px;min-width:45.2px'>
+	                <i id='icon-preview' style='font-size:1.2em' class='{$detail.icon}'></i>
+	            </span>
+	            <button type='button' data-icon='icon' class='layui-btn layui-btn-primary layui-btn-icon'>选择</button>
+			  </div>
+		</div>    
+		<div class="layui-form-item">
+	        <label class="layui-form-label">是否是菜单</label>
+	        <div class="layui-input-block">
+	            <input type="checkbox" name="is_menu" lay-skin="switch" lay-text="是|否" {if condition="$detail.is_menu eq 1"}checked="true"{/if}>
+	        </div>
+	    </div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+			{auth name="admin/permission/update"}
+			<button class="layui-btn" lay-submit="" lay-filter="update">保存</button>
+			{/auth}
+			</div>
+		</div>
+	</form>
+</div>
+{/block}
+{block name="script"}
+{js href="_ADMIN_/js/permission-add.js" /}
+{/block}
+

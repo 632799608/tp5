@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{block name="title"}XX后台{/block}</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        {block name="style"}{/block}
+        {css href="/static/lib/layui/css/layui.css,/static/css/x-admin.css" /}
+        {css href="/static/css/font-awesome.min.css" /}
+    </head>
+    <body>
+        {block name="body"}{/block}
+        {js href="
+        /static/lib/layui/layui.js,
+        /static/lib/axios/axios.min.js,
+        /static/js/x-admin.js,
+        /static/lib/vue2/vue.min.js" /}
+        {block name="script"}{/block}
+    </body>
+</html>
