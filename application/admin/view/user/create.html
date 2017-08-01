@@ -1,0 +1,78 @@
+{extend name="public:layouts" /}
+{block name="title"}XXºóÌ¨2{/block}
+{block name="body"}
+<style type="text/css">
+
+</style>
+<div class="x-body">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                选择角色
+            </label>
+            <div class="layui-input-block">
+                <div style="width: 450px">
+                    {volist name="role" id="vo"}
+                    <span style="float: left;width: 150px;margin-top:10px">
+                        <input type="checkbox" name="" title="{$vo.title}" value="{$vo.id}" lay-filter="roleThree" lay-skin="">
+                    </span>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>昵称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
+                autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>邮箱
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_email" name="email" required="" lay-verify="email"
+                autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>将会成为您唯一的登入名
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                6到16个字符
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>确认密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button  class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+{/block}
+{block name="script"}
+{js href="_ADMIN_/js/role-add.js" /}
+{/block}
+

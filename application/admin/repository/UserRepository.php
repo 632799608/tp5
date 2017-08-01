@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\repository;
 use app\common\model\User;
+use app\common\model\Role;
 
 class UserRepository
 {
@@ -11,7 +12,28 @@ class UserRepository
 		$this->model = User::modelInit();
 	}
 	/**
-	 *  [login 查询用户信息]
+	 *  [index description]
+	 *  @author zhouzhihon
+	 *  @DateTime 2017-08-01T17:00:10+0800
+	 *  @return   [type]                   [description]
+	 */
+	public function index()
+	{
+		$map = ['username'=>['like','%'.input('param.name').'%']];
+		return $this->model->where($map)->with('roles')->order('id desc')->paginate(input('post.pageSize'),false,['page'=>input('post.page')]);
+	}
+	/**
+	 *  [roleList 角色列表]
+	 *  @author zhouzhihon
+	 *  @DateTime 2017-08-01T17:48:13+0800
+	 *  @return   [type]                   [description]
+	 */
+	public function roleList()
+	{
+		return Role::field('id,title')->select();
+	}
+	/**
+	 *  [login 查询管理员信息]
 	 *  @author zhouzhihon
 	 *  @DateTime 2017-06-05T14:39:58+0800
 	 *  @param    [type]                   $map [description]
