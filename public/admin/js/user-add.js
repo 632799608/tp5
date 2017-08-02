@@ -3,48 +3,29 @@ layui.use(['form'], function() {
         layer = layui.layer,
         $ = layui.jquery;
     $(function(){
-        // 点击一级菜单
-        form.on('checkbox(roleOne)',function(data) {
-            var el = $(data.elem).parent().next();
-            el.find('input').each(function(){ 
-                this.checked = data.elem.checked;
-            })
-            form.render('checkbox');
-        })
-        // 点击二级菜单
-        form.on('checkbox(roleTwo)',function(data) {
-            var elc = $(data.elem).parent().next();
-            elc.find('input').each(function(){ 
-                this.checked = data.elem.checked;
-            })
-            if (data.elem.checked) {
-                var elp = checkParent(data.elem);
-                elp.checked = data.elem.checked; 
+        //自定义验证规则
+        form.verify({
+            password:[/(.+){6,12}$/, '密码必须6到12位'],
+            repassword: function(value){
+                if($('#password').val()!=$('#repassword').val()){
+                    return '两次密码不一致';
+                }
+            },
+            mobile:function (value) {
+                if(!(/^1[34578]\d{9}$/.test(value))){ 
+                    return '手机号码有误'; 
+                } 
             }
-            form.render('checkbox');
-        })
-        // 点击三级菜单
-        form.on('checkbox(roleThree)',function(data) {
-            var elp = checkParent(data.elem);
-            var elpp = checkParent(elp);
-            if (data.elem.checked) {
-                elp.checked = data.elem.checked;
-                elpp.checked = data.elem.checked;   
-            };
-            form.render('checkbox');
-        })
-        //选择当前权限的父级权限
-        function checkParent(el) {
-            return $(el).parent().parent().parent().parent().parent().prev().find('input')[0];
-        }
+        });
         //监听提交添加
         form.on('submit(store)', function(data){
-            var rules = '';
+            var roles = '';
             $(":checked").each(function(argument) {
-                rules += this.value+',';
+                roles += this.value+',';
             })
-            data.field.rules = rules;
-            axios.post('/admin/role/store', data.field).then(function(response) {
+            data.field.roles = roles;
+            console.log(data.field);
+            axios.post('/admin/user/store', data.field).then(function(response) {
                 if (response.data.code == 200) {
                     layer.msg(response.data.message,{icon:6}, function() {
                         window.parent.layer.closeAll();
@@ -65,7 +46,7 @@ layui.use(['form'], function() {
                 rules += this.value+',';
             })
             data.field.rules = rules;
-            axios.post('/admin/role/update', data.field).then(function(response) {
+            axios.post('/admin/user/update', data.field).then(function(response) {
                 if (response.data.code == 200) {
                     layer.msg(response.data.message,{icon:6}, function() {
                         window.parent.layer.closeAll();

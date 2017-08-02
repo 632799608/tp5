@@ -74,8 +74,12 @@ class UserController extends BaseController
 	public function store(Request $request)
 	{
 		if($request->isPost()){
-			$data = input('post.');
-			$result = $this->validate($data,'Role');
+			$data['username'] = input('post.username');
+			$data['password'] = input('post.password');
+			$data['email'] = input('post.email');
+			$data['mobile'] = input('post.mobile');
+			$data['reg_ip'] = get_client_ip();
+			$result = $this->validate(input('post.'),'User');
 			if(true !== $result){
 				return jsonError($result);
 			}

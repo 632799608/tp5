@@ -33,6 +33,15 @@ class UserRepository
 		return Role::field('id,title')->select();
 	}
 	/**
+	 * [store 添加管理员]
+	 * @author zhouzhihon
+	 * @DateTime 2017-07-23T11:54:25+0800
+	 */
+	public function store($data)
+	{
+		return $this->model->create($data);
+	}
+	/**
 	 *  [login 查询管理员信息]
 	 *  @author zhouzhihon
 	 *  @DateTime 2017-06-05T14:39:58+0800
