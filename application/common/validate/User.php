@@ -6,7 +6,7 @@ use think\Validate;
 class User extends Validate
 {
     protected $rule = [
-        'username'   =>  'require|max:25',
+        'username'   =>  'require|max:25|unique:auth_user',
         'password'   =>  'require|max:12|min:6',
         'repassword' =>  'require|confirm:password',
         'mobile'     =>  'require|regex:/^1[34578]\d{9}$/',
@@ -14,6 +14,7 @@ class User extends Validate
     ];
     protected $message = [
         'username.require' =>  '管理员名称不能为空',
+        'username.unique' =>  '管理员名称已经存在',
         'password.require' =>  '密码不能为空',
         'mobile.require' =>  '手机号码不能为空',
         'email.require' =>  '手机号码不能为空',

@@ -2,7 +2,6 @@
 namespace app\admin\controller;
 use app\admin\controller\BaseController;
 use think\Request;
-use think\Cache;
 use app\admin\repository\UserRepository;
 use think\Validate;
 
@@ -48,22 +47,18 @@ class UserController extends BaseController
 		$detail = $this->rep->show($id);
 		//管理员拥有的权限
 		$roleMenu = array_filter(explode(',', $detail['rules']));
-		return view('user/edit',[
-					'menu'=>$this->menuList(),
-					'detail'=>$detail,
-					'roleMenu'=>$roleMenu
-				]);
+		return view('user/edit',[]);
 	}
 	/**
-	 * [menuList description]
+	 * [show description]
 	 * @author zhouzhihon
-	 * @DateTime 2017-07-23T16:16:30+0800
-	 * @param    Request                  $request [description]
-	 * @return   [type]                            [description]
+	 * @DateTime 2017-08-03T23:59:32+0800
+	 * @param    [type]                   $id [description]
+	 * @return   [type]                       [description]
 	 */
-	public function menuList()
+	public function show($id)
 	{
-		return sort_parent($this->rep->menuList());
+		
 	}
 	/**
 	 * [store 管理员添加]
@@ -83,7 +78,7 @@ class UserController extends BaseController
 			if(true !== $result){
 				return jsonError($result);
 			}
-			if($this->rep->store($data)){
+			if($this->rep->store($data) == null){
 				return jsonSuccess([],'添加成功');
 			}else{
 				return jsonError('添加失败');
@@ -114,16 +109,6 @@ class UserController extends BaseController
 		}
 	}
 	/**
-	 * [icon description]
-	 * @author zhouzhihon
-	 * @DateTime 2017-07-24T20:45:20+0800
-	 * @return   [type]                   [description]
-	 */
-	public function icon()
-	{
-		return view('icon/index');
-	}
-	/**
 	 *  [delete 删除管理员]
 	 *  @author zhouzhihon
 	 *  @DateTime 2017-07-25T17:47:25+0800
@@ -134,9 +119,8 @@ class UserController extends BaseController
 	{
 		$id = input('param.')['id'];
 		if($request->isPost()){
-			if($this->rep->delete($id)){
-				Cache::rm('auth_permission_list');
-				return jsonSuccess($this->rep->delete($id),'删除成功');
+			if($this->rep->delete($id) == null){
+				return jsonSuccess([],'删除成功');
 			}else{
 				return jsonError('删除失败');
 			}

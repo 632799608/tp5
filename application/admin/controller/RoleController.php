@@ -131,7 +131,6 @@ class RoleController extends BaseController
 		$id = input('param.')['id'];
 		if($request->isPost()){
 			if($this->rep->delete($id)){
-				Cache::rm('auth_permission_list');
 				return jsonSuccess($this->rep->delete($id),'删除成功');
 			}else{
 				return jsonError('删除失败');

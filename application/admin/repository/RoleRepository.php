@@ -61,7 +61,7 @@ class RoleRepository
 	public function delete($id)
 	{
 		if (is_array($id)) {
-			return $this->model->where('id','in',$id)->delete();
+			return $this->model->destroy($id);
 		}else{
 			return $this->model->where(['id'=>$id])->delete();
 		}

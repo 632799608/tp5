@@ -2,6 +2,7 @@
 namespace app\admin\repository;
 use app\common\model\User;
 use app\common\model\Role;
+use think\Db;
 
 class UserRepository
 {
@@ -39,7 +40,30 @@ class UserRepository
 	 */
 	public function store($data)
 	{
-		return $this->model->create($data);
+		$exp = Db::transaction(function () use ($data){
+		    $user = $this->model->create($data);
+		    $user->roles()->attach(array_filter(explode(',', input('post.roles'))));
+		});
+		return $exp;
+	}
+	/**
+	 * [delete 删除管理员]
+	 * @author zhouzhihon
+	 * @DateTime 2017-07-25T23:05:29+0800
+	 * @return   [type]                   [description]
+	 */
+	public function delete($id)
+	{
+		$exp = Db::transaction(function () use ($id){
+			if(is_array($id)){
+				$this->model->where('id','in',$id)->delete();
+				Db::table('auth_user_role')->where('uid','in',$id)->delete();
+			}else{
+				$this->model->where(['id'=>$id])->delete();
+				Db::table('auth_user_role')->where(['uid'=>$id])->delete();	
+			}
+		});
+		return $exp;
 	}
 	/**
 	 *  [login 查询管理员信息]
