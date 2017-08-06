@@ -25,6 +25,7 @@ class User extends Validate
         'email.email' =>  '邮箱格式有误',
     ];
     protected $scene = [
-
+        'add'   =>  ['name','email','mobile','password','repassword'],
+        'edit'  =>  ['username','email','mobile'],
     ];
 }

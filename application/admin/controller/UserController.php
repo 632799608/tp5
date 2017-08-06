@@ -45,20 +45,8 @@ class UserController extends BaseController
 	public function edit($id)
 	{
 		$detail = $this->rep->show($id);
-		//管理员拥有的权限
-		$roleMenu = array_filter(explode(',', $detail['rules']));
-		return view('user/edit',[]);
-	}
-	/**
-	 * [show description]
-	 * @author zhouzhihon
-	 * @DateTime 2017-08-03T23:59:32+0800
-	 * @param    [type]                   $id [description]
-	 * @return   [type]                       [description]
-	 */
-	public function show($id)
-	{
-		
+		$roleId = $this->rep->role($id);
+		return view('user/edit',['detail'=>$detail,'role'=>$this->rep->roleList(),'roleId'=>$roleId]);
 	}
 	/**
 	 * [store 管理员添加]
@@ -70,7 +58,7 @@ class UserController extends BaseController
 	{
 		if($request->isPost()){
 			$data['username'] = input('post.username');
-			$data['password'] = input('post.password');
+			$data['password'] = think_ucenter_encrypt(input('post.password'),config('encryptKey'));
 			$data['email'] = input('post.email');
 			$data['mobile'] = input('post.mobile');
 			$data['reg_ip'] = get_client_ip();
@@ -95,13 +83,19 @@ class UserController extends BaseController
 	public function update(Request $request)
 	{
 		if($request->isPost()){
-			$data = input('post.');
-			$result = $this->validate($data,'Role');
+			$data['id'] = input('post.id');
+			$data['username'] = input('post.username');
+			$data['password'] = think_ucenter_encrypt(input('post.password'),config('encryptKey'));
+			$data['email'] = input('post.email');
+			$data['mobile'] = input('post.mobile');
+			$result = $this->validate(input('post.'),'User.edit');
 			if(true !== $result){
 				return jsonError($result);
 			}
-			if($this->rep->update($data)){
-				Cache::rm('auth_permission_list');
+			if (input('post.password') == null) {
+				unset($data['password']);
+			}
+			if($this->rep->update($data) == null){
 				return jsonSuccess([],'编辑成功');
 			}else{
 				return jsonError('编辑失败');

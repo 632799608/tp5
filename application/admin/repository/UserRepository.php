@@ -47,6 +47,21 @@ class UserRepository
 		return $exp;
 	}
 	/**
+	 *  [update 编辑管理员]
+	 *  @author zhouzhihon
+	 *  @DateTime 2017-07-26T17:27:48+0800
+	 *  @return   [type]                   [description]
+	 */
+	public function update($data)
+	{
+		$exp = Db::transaction(function () use ($data){
+		    Db::table('auth_user_role')->where(['uid'=>input('post.id')])->delete();	
+		    $user = $this->model->update($data);
+		    $user->roles()->attach(array_filter(explode(',', input('post.roles'))));
+		});
+		return $exp;
+	}
+	/**
 	 * [delete 删除管理员]
 	 * @author zhouzhihon
 	 * @DateTime 2017-07-25T23:05:29+0800
@@ -64,6 +79,33 @@ class UserRepository
 			}
 		});
 		return $exp;
+	}
+	/**
+	 *  [show 根据id获取一条管理员详情]
+	 *  @author zhouzhihon
+	 *  @DateTime 2017-07-26T17:10:28+0800
+	 *  @param    [type]                   $id [角色id]
+	 *  @return   [type]                       [description]
+	 */
+	public function show($id)
+	{
+		return $this->model->where('id',$id)->find();
+	}
+	/**
+	 * [role 当前管理员拥有的角色id]
+	 * @author zhouzhihon
+	 * @DateTime 2017-08-04T22:43:02+0800
+	 * @param    [type]                   $id [description]
+	 * @return   [type]                       [description]
+	 */
+	public function role($id)
+	{
+		$role = Db::table('auth_user_role')->where(['uid'=>$id])->select();
+		$arr = [];
+		foreach ($role as $value) {
+			array_push($arr, $value['group_id']);
+		}
+		return $arr;
 	}
 	/**
 	 *  [login 查询管理员信息]

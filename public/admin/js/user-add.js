@@ -6,6 +6,13 @@ layui.use(['form'], function() {
         //自定义验证规则
         form.verify({
             password:[/(.+){6,12}$/, '密码必须6到12位'],
+            editassword: function(value){
+                if(!== null){
+                    if(!(/(.+){6,12}$/.test(value))){ 
+                        return '密码必须6到12位'; 
+                    } 
+                }
+            },
             repassword: function(value){
                 if($('#password').val()!=$('#repassword').val()){
                     return '两次密码不一致';
@@ -41,11 +48,11 @@ layui.use(['form'], function() {
         });
         //监听提交编辑
         form.on('submit(update)', function(data){
-            var rules = '';
+            var roles = '';
             $(":checked").each(function(argument) {
-                rules += this.value+',';
+                roles += this.value+',';
             })
-            data.field.rules = rules;
+            data.field.roles = roles;
             axios.post('/admin/user/update', data.field).then(function(response) {
                 if (response.data.code == 200) {
                     layer.msg(response.data.message,{icon:6}, function() {
