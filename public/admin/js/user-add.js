@@ -7,7 +7,7 @@ layui.use(['form'], function() {
         form.verify({
             password:[/(.+){6,12}$/, '密码必须6到12位'],
             editassword: function(value){
-                if(!== null){
+                if(!= null){
                     if(!(/(.+){6,12}$/.test(value))){ 
                         return '密码必须6到12位'; 
                     } 
