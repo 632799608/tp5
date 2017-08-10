@@ -1,12 +1,12 @@
 <?php
 namespace app\admin\controller;
-use app\admin\controller\BaseController;
+use think\Controller;
 use think\Request;
 use think\Cache;
 use app\admin\repository\PermissionRepository;
 use think\Validate;
 
-class PermissionController extends BaseController
+class PermissionController extends Controller
 {
 	protected $rep;
 	public function __construct()

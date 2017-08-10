@@ -1,12 +1,13 @@
 <?php
 namespace app\admin\controller;
-use app\admin\controller\BaseController;
+
+use think\Controller;
 use think\Request;
 use think\Cache;
 use app\admin\repository\RoleRepository;
 use think\Validate;
 
-class RoleController extends BaseController
+class RoleController extends Controller
 {
 	protected $rep;
 	public function __construct()

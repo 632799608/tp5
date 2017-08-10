@@ -1,11 +1,12 @@
 <?php
 namespace app\admin\controller;
-use app\admin\controller\BaseController;
+
+use think\Controller;
 use think\Request;
 use app\admin\repository\UserRepository;
 use think\Validate;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
 	protected $rep;
 	public function __construct()

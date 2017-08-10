@@ -21,6 +21,15 @@ trait Model
         self::event('before_update',function(&$data){
             self::before_update($data);
         });
+        self::event('after_insert',function(){
+            self::after_create();
+        });
+        self::event('after_update',function(){
+            self::after_update();
+        });
+        self::event('before_delete',function(){
+            self::after_delete();
+        });
     }
     /**
      * [modelInit 单例的初始化]
@@ -53,5 +62,36 @@ trait Model
      */
     public static function before_update(&$data){
         $data->update_time = time();
+    }
+    /**
+     * [after_create 模型更新之后事件]
+     * @author zhouzhihon
+     * @DateTime 2017-08-10T21:26:42+0800
+     * @return   [type]                   [description]
+     */
+    public static function after_create(){
+
+    }
+    /**
+     * [after_update 模型更新之后标签位]
+     * @author zhouzhihon
+     * @DateTime 2017-08-10T22:37:57+0800
+     * @return   [type]                   [description]
+     */
+    public static function after_update()
+    {
+        
+    }
+    /**
+     * [after_delete 模型删除之后事件]
+     * @author zhouzhihon
+     * @DateTime 2017-08-10T22:35:31+0800
+     * @return   [type]                   [description]
+     */
+    public static function after_delete()
+    {
+                \think\Log::write('controller666666666677'.request()->controller());
+        \think\Log::write('action666666666688'.request()->action());
+        \think\Log::write('module666666666699'.request()->module());
     }
 }
