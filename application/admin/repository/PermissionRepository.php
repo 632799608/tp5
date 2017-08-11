@@ -59,13 +59,7 @@ class PermissionRepository
 	 */
 	public function delete($id)
 	{
-
-		return $this->model->destroy(['id','in',$id]);
-		if (is_array($id)) {
-			return $this->model->where('id','in',$id)->delete();
-		}else{
-			return $this->model->where(['id'=>$id])->delete();
-		}
+		return $this->model->del($id);
 	}
 /**
  *  [show 根据id获取一条权限详情]

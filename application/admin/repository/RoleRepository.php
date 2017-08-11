@@ -60,11 +60,7 @@ class RoleRepository
 	 */
 	public function delete($id)
 	{
-		if (is_array($id)) {
-			return $this->model->destroy($id);
-		}else{
-			return $this->model->where(['id'=>$id])->delete();
-		}
+		return $this->model->del($id);
 	}
 	/**
 	 *  [show 根据id获取一条角色详情]

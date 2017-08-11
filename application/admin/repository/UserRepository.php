@@ -70,11 +70,10 @@ class UserRepository
 	public function delete($id)
 	{
 		$exp = Db::transaction(function () use ($id){
+			$this->model->del($id);
 			if(is_array($id)){
-				$this->model->where('id','in',$id)->delete();
 				Db::table('auth_user_role')->where('uid','in',$id)->delete();
 			}else{
-				$this->model->where(['id'=>$id])->delete();
 				Db::table('auth_user_role')->where(['uid'=>$id])->delete();	
 			}
 		});
@@ -127,7 +126,7 @@ class UserRepository
       */
     public function loginRecord($id)
     {
-    	return $this->model->update([ 
+    	return db('auth_user')->update([ 
 	        'id'              => $id ,
 	        'last_login_time' => time(), 
 	        'last_login_ip'   => get_client_ip() 

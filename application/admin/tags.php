@@ -6,4 +6,7 @@ return [
     'action_begin' => [
         'app\\admin\\behavior\\CheckAuth',
     ],
+    'user_behavior' => [
+        'app\\admin\\behavior\\UserBehavior',
+    ],
 ];

@@ -98,7 +98,7 @@ class PermissionController extends Controller
 			}
 			if($this->rep->update($data)){
 				Cache::rm('auth_permission_list');
-				return jsonSuccess([],'编辑成功');
+				return jsonSuccess($this->rep->update($data),'编辑成功');
 			}else{
 				return jsonError('编辑失败');
 			}

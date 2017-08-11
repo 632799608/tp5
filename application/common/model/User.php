@@ -8,6 +8,10 @@ class User extends Model
 	use \app\common\traits\Model;
 	// 设置当前模型对应的完整数据表名称
     protected $table = 'auth_user';
+    //操作记录标识
+    const note = '管理员';
+    //操作记录标题
+    const title = 'username';
     /**
      *  [roles 多对多关联roles]
      *  @author zhouzhihon
