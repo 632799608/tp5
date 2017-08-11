@@ -1,0 +1,84 @@
+{extend name="public:layouts" /}
+{block name="title"}XX后台1{/block}
+{block name="body"}
+<style type="text/css">
+.layui-table td{
+  text-align: center;
+}
+.layui-table th{
+  text-align: center;
+}
+</style>
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a><cite>系统</cite></a>
+      <a><cite>日志记录</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body" id="app">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+              <div class="layui-input-inline">
+                <input type="text" name="name"  placeholder="管理员名称" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <button class="layui-btn" lay-submit="" lay-filter="search" type="button"><i style='font-size:1.2em' class='fa fa-search'></i></button>
+            </div>
+        </div>
+    </form>
+    <xblock>
+    {auth name="admin/log/delete"}
+    <button class="layui-btn layui-btn-danger" @click="allDel()"><i class="layui-icon">&#xe640;</i>批量删除</button>
+    {/auth}
+    {auth name="admin/log/create"}
+    <button class="layui-btn"  @click="addHtml()"><i class="layui-icon">&#xe608;</i>添加</button>
+    {/auth}
+    <span class="x-right" style="line-height:40px">共有数据：{{total}} 条</span>
+    </xblock>
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+                <th style="width: 50px"><input type="checkbox" name="" value="" lay-filter="allChoose" lay-skin="primary"></th>
+                <th>日志ID</th>
+                <th>管理员ID</th>
+                <th>管理员名称</th>
+                <th>IP</th>
+                <th>行为</th>
+                <th>数据ID</th>
+                <th>行为时间</th>
+                <th>权限别名</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in log">
+                <td style="width: 50px">
+                    <input type="checkbox" v-bind:value="item.id" name="" lay-filter="" lay-skin="primary">
+                </td>
+                <td v-text="item.id"></td>
+                <td v-text="item.userId"></td>
+                <td v-text="item.username"></td>
+                <td v-text="item.ip"></td>
+                <td v-text="item.name"></td>
+                <td v-text="item.recordId"></td>
+                <td v-text="item.create_time"></td>
+                <td v-text="item.operate"></td>
+                <td class="td-manage">
+                    <div class="layui-btn-group">
+                        {auth name="admin/log/delete"}
+                        <button class="layui-btn layui-btn-small" @click="elDel(item.id)" ><i class="layui-icon"></i></button>
+                        {/auth}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="page"></div>
+</div>
+{/block}
+{block name="script"}
+{js href="_ADMIN_/js/log.js" /}
+{/block}

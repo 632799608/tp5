@@ -10,10 +10,6 @@
 // +----------------------------------------------------------------------
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
-use think\Hook;
-Hook::add('user_behavior',[
-    'app\admin\behavior\UserBehavior',
-]);
 // 应用公共文件
  /**
  *  [verify 验证码]

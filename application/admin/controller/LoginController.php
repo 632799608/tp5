@@ -84,9 +84,9 @@ class LoginController extends Controller {
 		            }
 		        }
 		        Cache::set('menu'.$userId,$menu);//每次用户登录获取用户的权限列表存缓存，退出登录则清除权限缓存
-				$this->success('登录成功', 'admin/index/index');
+		        //记录用户登录
 				\think\Hook::listen('user_behavior',$params);
-				\think\Hook::exec('app\admin\behavior\UserBehavior','run',$params);
+				$this->success('登录成功', 'admin/index/index');
 			}else{
 				$this->error('用户名或密码错误');
 			}

@@ -61,7 +61,7 @@ trait Model
         foreach ($id as $value) {
             $arr[] = $value;
         }
-        return self::destroy($arr);
+        return $this->destroy($arr);
     }
     /**
      * [before_create 调用模型添加之前事件]
@@ -124,7 +124,7 @@ trait Model
      */
     public static function record($data,$operate)
     {
-        if (request()->module() == 'admin') {
+        if (request()->module() == 'admin' && request()->controller() != 'Log') {
             $title = self::title;
             $record = array(
                 'name'=>$operate.self::note.'【'.$data->$title.'】',
@@ -133,7 +133,7 @@ trait Model
                 'username'=>Session::get('user_login')['username'],
                 'userId'=>Session::get('user_login')['id'],
                 'data'=>$data,
-                'create_time'=>date('Y-m-d H:i:s'),
+                'create_time'=>time(),
                 'ip'=>get_client_ip(),
             );
             db('system_log')->insert($record);
